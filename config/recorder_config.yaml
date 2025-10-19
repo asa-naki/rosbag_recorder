@@ -1,49 +1,54 @@
 # ROS2 Rosbag Recorder Configuration for Jazzy
 recording:
   # SSD output directory (adjust path as needed)
-  output_directory: "/media/ssd/rosbag_recordings"
-  
+  output_directory: "/media/rosbag_records"
+
   # Bag file name prefix
   bag_name_prefix: "recording"
-  
+
   # Split duration in minutes
   split_duration_minutes: 1
-  
+
   # Storage settings
-  storage_id: "sqlite3"
+  storage_id: "mcap"
   serialization_format: "cdr"
-  
+
   # File size limits (0 means no limit)
-  max_bagfile_size: 0  # bytes
-  max_cache_size: 104857600  # 100MB
-  
+  max_bagfile_size: 0 # bytes
+  max_cache_size: 104857600 # 100MB
+
   # Include hidden topics (topics starting with _)
   include_hidden_topics: false
-  
+
   # Record services (ROS2 Jazzy feature)
   record_services: true
-  
+
   # Status publishing settings
   status_publish_rate_hz: 1.0
   health_check_rate_hz: 0.2
-  
+
   # Explicit topic list
   topics:
-    - "/camera/image_raw"
-    - "/lidar/points"
-    - "/imu/data"
-    - "/gps/fix"
-    - "/tf"
-    - "/tf_static"
-  
+    - "/image_raw"
+    - "/camera_info"
+    - "/diagnostics"
+    # - "/lidar/points"
+    # - "/imu/data"
+    # - "/gps/fix"
+    # - "/tf"
+    # - "/tf_static"
+
   # Regular expression patterns for topic matching
   # These will be combined with the explicit topic list above
   topic_regex_patterns:
-    - "/sensor_.*"          # All topics starting with /sensor_
-    - "/robot/.*"           # All topics starting with /robot/
-    - ".*_status$"          # All topics ending with _status
-    - "/.*/(odom|cmd_vel)"  # odometry and command velocity topics
-  
+    - "/sensor_.*" # All topics starting with /sensor_
+    - "/robot/.*" # All topics starting with /robot/
+    - ".*_status$" # All topics ending with _status
+    - "/.*/(odom|cmd_vel)" # odometry and command velocity topics
+    - "/image_raw.*" # All image_raw related topics (including compressed)
+    - "/camera_.*" # All camera related topics
+    - "/.*compressed.*" # All compressed topics
+
   # Services to record (ROS2 Jazzy feature)
   services:
     - "/get_map"
