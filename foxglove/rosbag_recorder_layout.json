@@ -1,0 +1,50 @@
+{
+  "configById": {
+    "rosbag-recorder-status": {
+      "paths": {
+        "recording_status": "/rosbag_recorder/recording_status",
+        "recording_info": "/rosbag_recorder/recording_info",
+        "diagnostics": "/diagnostics"
+      },
+      "style": {
+        "labels": {
+          "backgroundColor": "#248232",
+          "textColor": "#ffffff"
+        }
+      }
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": {
+    "direction": "row",
+    "first": {
+      "direction": "column",
+      "first": {
+        "configId": "rosbag-recorder-status",
+        "type": "Indicator"
+      },
+      "second": {
+        "configId": "rosbag-recorder-diagnostics",
+        "type": "DiagnosticStatusPanel"
+      },
+      "splitPercentage": 60
+    },
+    "second": {
+      "direction": "column",
+      "first": {
+        "configId": "rosbag-recorder-info",
+        "type": "RawMessages"
+      },
+      "second": {
+        "configId": "rosbag-recorder-plot",
+        "type": "Plot"
+      },
+      "splitPercentage": 50
+    },
+    "splitPercentage": 70
+  }
+}

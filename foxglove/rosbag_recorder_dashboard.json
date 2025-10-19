@@ -1,0 +1,209 @@
+{
+  "configById": {
+    "rosbag-status-indicator": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/rosbag_recorder/recording_status",
+          "enabled": true
+        }
+      ],
+      "style": {
+        "rules": [
+          {
+            "condition": {
+              "path": 0,
+              "operator": "==",
+              "value": true
+            },
+            "style": {
+              "backgroundColor": "#4caf50",
+              "borderColor": "#2e7d32",
+              "textColor": "#ffffff"
+            },
+            "label": "RECORDING"
+          },
+          {
+            "condition": {
+              "path": 0,
+              "operator": "==",
+              "value": false
+            },
+            "style": {
+              "backgroundColor": "#f44336",
+              "borderColor": "#c62828",
+              "textColor": "#ffffff"
+            },
+            "label": "STOPPED"
+          }
+        ]
+      }
+    },
+    "rosbag-info-panel": {
+      "topics": ["/rosbag_recorder/recording_info"],
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false
+    },
+    "rosbag-diagnostics-panel": {
+      "topicToRender": "/diagnostics",
+      "collapsedSections": [],
+      "sortByLevel": true,
+      "minLevel": 0,
+      "numericPrecision": 3
+    },
+    "rosbag-stats-plot": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/diagnostics.status[0].values[:]{.key==\"recording_duration_sec\"}.value",
+          "enabled": true,
+          "color": "#2196f3",
+          "label": "Recording Duration (sec)"
+        },
+        {
+          "timestampMethod": "receiveTime", 
+          "value": "/diagnostics.status[0].values[:]{.key==\"file_count\"}.value",
+          "enabled": true,
+          "color": "#ff9800",
+          "label": "File Count"
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/diagnostics.status[0].values[:]{.key==\"total_bytes\"}.value",
+          "enabled": true,
+          "color": "#9c27b0",
+          "label": "Total Bytes"
+        }
+      ],
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": true,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240
+    },
+    "storage-health-indicator": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/diagnostics.status[1].level",
+          "enabled": true
+        }
+      ],
+      "style": {
+        "rules": [
+          {
+            "condition": {
+              "path": 0,
+              "operator": "==",
+              "value": 0
+            },
+            "style": {
+              "backgroundColor": "#4caf50",
+              "borderColor": "#2e7d32",
+              "textColor": "#ffffff"
+            },
+            "label": "STORAGE OK"
+          },
+          {
+            "condition": {
+              "path": 0,
+              "operator": "==",
+              "value": 1
+            },
+            "style": {
+              "backgroundColor": "#ff9800",
+              "borderColor": "#f57c00",
+              "textColor": "#ffffff"
+            },
+            "label": "STORAGE WARNING"
+          },
+          {
+            "condition": {
+              "path": 0,
+              "operator": "==",
+              "value": 2
+            },
+            "style": {
+              "backgroundColor": "#f44336",
+              "borderColor": "#c62828",
+              "textColor": "#ffffff"
+            },
+            "label": "STORAGE ERROR"
+          }
+        ]
+      }
+    },
+    "disk-usage-gauge": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/diagnostics.status[1].values[:]{.key==\"usage_percent\"}.value",
+          "enabled": true
+        }
+      ],
+      "minValue": 0,
+      "maxValue": 100,
+      "colorMode": "gradient",
+      "gradient": ["#4caf50", "#ffeb3b", "#f44336"],
+      "reverse": false,
+      "units": "%"
+    }
+  },
+  "globalVariables": {
+    "recording_status": false,
+    "storage_path": "/media/ssd/rosbag_recordings"
+  },
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": {
+    "direction": "row",
+    "first": {
+      "direction": "column",
+      "first": {
+        "direction": "row",
+        "first": {
+          "configId": "rosbag-status-indicator",
+          "type": "Indicator"
+        },
+        "second": {
+          "configId": "storage-health-indicator", 
+          "type": "Indicator"
+        },
+        "splitPercentage": 50
+      },
+      "second": {
+        "direction": "row",
+        "first": {
+          "configId": "disk-usage-gauge",
+          "type": "Gauge"
+        },
+        "second": {
+          "configId": "rosbag-info-panel",
+          "type": "RawMessages"
+        },
+        "splitPercentage": 30
+      },
+      "splitPercentage": 30
+    },
+    "second": {
+      "direction": "column",
+      "first": {
+        "configId": "rosbag-stats-plot",
+        "type": "Plot"
+      },
+      "second": {
+        "configId": "rosbag-diagnostics-panel",
+        "type": "DiagnosticStatusPanel"
+      },
+      "splitPercentage": 60
+    },
+    "splitPercentage": 40
+  }
+}
